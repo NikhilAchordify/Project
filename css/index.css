@@ -1,0 +1,17 @@
+.included-content {
+    height: 100%;
+    overflow:hidden;
+}
+.divone{
+    height: 70vh; 
+    background-color: black;
+}
+.head{
+    color: white;
+}
+.divtwo{
+    height: 30vh; 
+    background-color: white;
+    margin-left: -1%;
+    
+}
