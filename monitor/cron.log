@@ -1,0 +1,45 @@
+at the start in .sh file
+Inside PROJECT.SH file, trying to find
+Interplay(SPIRIT)
+Shell: bash
+5 Jul 05:34:02 - [info] 
+
+Welcome to Interplay
+===================
+
+5 Jul 05:34:02 - [info] Interplay version: v7.1.24
+5 Jul 05:34:02 - [info] Node.js  version: v16.20.1
+5 Jul 05:34:02 - [info] Linux 5.10.104-linuxkit arm64 LE
+5 Jul 05:34:02 - [info] Loading palette nodes
+5 Jul 05:34:03 - [warn] ------------------------------------------------------
+5 Jul 05:34:03 - [warn] [node-red/rpi-gpio] Info : Ignoring Raspberry Pi specific node
+5 Jul 05:34:03 - [warn] ------------------------------------------------------
+5 Jul 05:34:03 - [info] Settings file  : /interplay_v2/settings.js
+5 Jul 05:34:03 - [info] HTTP Static    : /interplay_v2/public/private
+5 Jul 05:34:03 - [info] Context store  : 'default' [module=memory]
+5 Jul 05:34:03 - [info] User directory : /interplay_v2/flows/
+5 Jul 05:34:04 - [info] Active project : CUSTOM
+5 Jul 05:34:04 - [info] Flows file     : /interplay_v2/flows/projects/CUSTOM/flow.json
+5 Jul 05:34:04 - [info] Starting flows
+5 Jul 05:34:04 - [info] Started flows
+5 Jul 05:34:04 - [info] Server now running at http://127.0.0.1:1880/admin/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

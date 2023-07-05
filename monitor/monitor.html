@@ -4,7 +4,7 @@
 <head>
     <title>Interplay</title>
     <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -65,7 +65,7 @@
 
     .taskbar-head {
         font-family: Arial, Helvetica, sans-serif;
-        
+
         align-self: flex-start;
         /* Align taskbar head to the left */
         margin-right: auto;
@@ -99,12 +99,11 @@
         padding: 5px;
         border-radius: 50px;
         box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-        
+
         background-color: #f1f1f1;
     }
-    .my-div .dataTables_filter input 
 
-    .heading {
+    .my-div .dataTables_filter input .heading {
         text-align: center;
     }
 </style>
@@ -125,11 +124,12 @@
             <table id="productTable" class="display">
                 <thead>
                     <tr>
-                        <th class="heading">Id</th>
-                        <th class="heading">Time</th>
+
+                        <th class="heading">Date & Time</th>
                         <th class="heading">Type</th>
-                        <th class="heading">Logs</th>
-                        <th class="heading">Events</th>
+                        <th class="heading">Log Level</th>
+                        
+
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -137,55 +137,45 @@
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
-            var table = $('#productTable').DataTable({
-                ajax: {
-                    url: 'https://jsonplaceholder.typicode.com/comments', // Path to your JSON file
-                    dataSrc: ''
-                },
-                deferRender: true,
-                scrollY: '50vh', // Set the height of the scrollable area
-                scrollCollapse: true, // Enable collapsing of the table when scrolling
-                paging: false, // Disable pagination
-                info: false, // Hide the "Showing X of X entries" info
-                searching: true, // Show the search box
-                ordering: true, // Disable column sorting
-                createdRow: function (row, data, dataIndex) {
-                    // Callback function called for each created row
-                    if (dataIndex % 100 === 0) {
-                        // Load more data when reaching every 100th row
-                        table.ajax.reload(null, false);
-                    }
-                },
-                initComplete: function () {
-                    // Add the icon to the search input
-                    var searchInput = $('.dataTables_filter input');
-                    searchInput.attr('placeholder', '   Search Logs...');
-                    
-                    
-                },
+            var logTable = $('#productTable').DataTable({
                 columns: [
-                    { data: "postId" },
-
-                    { data: "id" },
-
-                    { data: "name" },
-
-                    { data: "email" },
-
-                    { data: "body" }
+                    { title: 'Date & Time' },
+                    { title: 'Type' },
+                    { title: 'Log Level' },
+                  
                 ]
             });
-            $("#productTable").on("scroll", function () {
-                var scrollThreshold = 50; // Adjust this value as needed
 
-                if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight - scrollThreshold) {
-                    table.ajax.reload();
+            $.ajax({
+                url: 'monitor/cron.log',
+                dataType: 'text',
+                success: function (data) {
+                    var lines = data.split('\n');
+                    var logData = [];
+
+                    lines.forEach(function (line) {
+                        var logMatch = line.match(/^\d+ (\w+ \d+:\d+:\d+) - \[(\w+)\] (.+)$/);
+
+                        if (logMatch) {
+                            var datetime = logMatch[1].trim();
+                            var logLevel = logMatch[2].trim();
+                            var message = logMatch[3].trim();
+
+                            logData.push([datetime, logLevel, message]);
+                        }
+                    });
+
+                    logTable.rows.add(logData).draw();
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error loading log file:', error);
                 }
             });
-
+            ;
+            ;
         });
     </script>
 </body>
